@@ -1,6 +1,8 @@
 
 import { Request, Response, NextFunction } from "express";
 import loginTypes from "../zod_types/loginTypes";
+import logAuthEvent from "../utils/logger";
+
 
 const loginMiddleware = (
   req: Request,
@@ -8,6 +10,8 @@ const loginMiddleware = (
   next: NextFunction
 ): any => {
   const body = req.body;
+  logAuthEvent(`login username=${body?.userName}`);
+
   const { success } = loginTypes.safeParse(body);
 
   if (!success) {
